@@ -26,7 +26,8 @@
       right: 0;
       bottom: 0;
       left: 0;
-      overflow: hidden;
+      /* overflow: hidden; */
+      z-index: 4;
     }
 
     .xterm-widget {
@@ -45,7 +46,7 @@
     <div id="xterm-widgets">
       <div class="xterm-widget">
         <ul>
-          <li>testing</li>
+          <li><a href="#">testing</a></li>
           <li>tall</li>
           <li>scrollable</li>
           <li>container</li>
@@ -78,9 +79,16 @@
     const cellHeight = term._core._renderService.dimensions.actualCellHeight;
 
     const viewport = term._core.viewport._viewportElement;
+
+    const myEl = document.getElementById('xterm-widgets');
+    myEl.remove();
+    console.log(viewport);
+    console.log(myEl);
+    viewport.appendChild(myEl);
+
     viewport.addEventListener('scroll', (e) => {
-      const pos = -roundTo(viewport.scrollTop, cellHeight);
-      widget.style.marginTop = pos + 'px';
+      // const pos = -roundTo(viewport.scrollTop, cellHeight);
+      // widget.style.marginTop = pos + 'px';
       console.log(viewport.scrollTop);
     });
 
