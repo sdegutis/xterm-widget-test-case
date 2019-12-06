@@ -12,12 +12,42 @@
     html,
     body {
       background: #222;
+      color: #ddd;
+    }
+
+    #xterm-widgets {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .xterm-widget {
+      background: #300;
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow: scroll;
     }
   </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div style="position: relative;">
+    <div id="root"></div>
+    <div id="xterm-widgets">
+      <div class="xterm-widget">
+        <ul>
+          <li>testing</li>
+          <li>tall</li>
+          <li>scrollable</li>
+          <li>container</li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <script>
 
     const term = new Terminal();
@@ -32,6 +62,27 @@
       if (data === '\r') term.write('\n');
       console.log(data);
     });
+
+    function roundTo(n, r) {
+      return Math.round(n / r) * r;
+    }
+
+    const widget = document.getElementsByClassName('xterm-widget')[0];
+
+    const cellWidth = term._core._renderService.dimensions.actualCellWidth;
+    const cellHeight = term._core._renderService.dimensions.actualCellHeight;
+
+    const viewport = term._core.viewport._viewportElement;
+    viewport.addEventListener('scroll', (e) => {
+      const pos = -roundTo(viewport.scrollTop, cellHeight);
+      widget.style.marginTop = pos + 'px';
+      console.log(viewport.scrollTop);
+    });
+
+    widget.style.top = (cellHeight * 22) + 'px';
+    widget.style.height = (cellHeight * 4) + 'px';
+    widget.style.left = (cellWidth * 30) + 'px';
+    widget.style.width = (cellWidth * 30) + 'px';
 
     term.write('top\r');
     term.write('\n'.repeat(23));
