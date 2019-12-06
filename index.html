@@ -15,6 +15,11 @@
       color: #ddd;
     }
 
+    .xterm.terminal {
+      /* 720 + 10 for scrollbar */
+      width: 730px;
+    }
+
     #xterm-widgets {
       position: absolute;
       top: 0;
@@ -82,7 +87,7 @@
     widget.style.top = (cellHeight * 22) + 'px';
     widget.style.height = (cellHeight * 4) + 'px';
     widget.style.left = (cellWidth * 30) + 'px';
-    widget.style.width = (cellWidth * 30) + 'px';
+    widget.style.width = (cellWidth * 50) + 'px';
 
     term.write('top\r');
     term.write('\n'.repeat(23));
