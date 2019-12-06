@@ -8,6 +8,12 @@
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='./xterm.css'>
   <script src='./xterm.js'></script>
+  <style>
+    html,
+    body {
+      background: #222;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,8 +23,22 @@
     const term = new Terminal();
 
     term.open(document.getElementById('root'));
+    term.focus();
 
     console.log(term);
+
+    term.onData(data => {
+      term.write(data);
+      if (data === '\r') term.write('\n');
+      console.log(data);
+    });
+
+    term.write('top\r');
+    term.write('\n'.repeat(23));
+    term.write('\rscroll down ...\n');
+    term.write('\rscroll up ...\n');
+    term.write('\n'.repeat(22));
+    term.write('\rbottom');
 
   </script>
 </body>
