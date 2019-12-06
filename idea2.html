@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>xterm.js widget test case</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='./xterm.css'>
+  <script src='./xterm.js'></script>
+  <style>
+    html,
+    body {
+      background: #222;
+      color: #ddd;
+    }
+
+    .xterm.terminal {
+      /* 720 + 10 for scrollbar */
+      width: 730px;
+    }
+
+    #xterm-widgets {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .xterm-widget {
+      background: #300;
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow: scroll;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="position: relative;">
+    <div id="root"></div>
+    <div id="xterm-widgets">
+      <div class="xterm-widget">
+        <ul>
+          <li>testing</li>
+          <li>tall</li>
+          <li>scrollable</li>
+          <li>container</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    const term = new Terminal();
+
+    term.open(document.getElementById('root'));
+    term.focus();
+
+    console.log(term);
+
+    term.onData(data => {
+      term.write(data);
+      if (data === '\r') term.write('\n');
+      console.log(data);
+    });
+
+    function roundTo(n, r) {
+      return Math.round(n / r) * r;
+    }
+
+    const widget = document.getElementsByClassName('xterm-widget')[0];
+
+    const cellWidth = term._core._renderService.dimensions.actualCellWidth;
+    const cellHeight = term._core._renderService.dimensions.actualCellHeight;
+
+    const viewport = term._core.viewport._viewportElement;
+    viewport.addEventListener('scroll', (e) => {
+      const pos = -roundTo(viewport.scrollTop, cellHeight);
+      widget.style.marginTop = pos + 'px';
+      console.log(viewport.scrollTop);
+    });
+
+    widget.style.top = (cellHeight * 22) + 'px';
+    widget.style.height = (cellHeight * 4) + 'px';
+    widget.style.left = (cellWidth * 30) + 'px';
+    widget.style.width = (cellWidth * 50) + 'px';
+
+    term.write('top\r');
+    term.write('\n'.repeat(23));
+    term.write('\rscroll down ...\n');
+    term.write('\rscroll up ...\n');
+    term.write('\n'.repeat(22));
+    term.write('\rbottom');
+
+  </script>
+</body>
+
+</html>
