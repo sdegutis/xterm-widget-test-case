@@ -9,10 +9,19 @@
   <link rel='stylesheet' type='text/css' media='screen' href='./xterm.css'>
   <script src='./xterm.js'></script>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
     html,
     body {
       background: #222;
       color: #ddd;
+    }
+
+    body {
+      margin: 2em;
     }
 
     .xterm.terminal {
@@ -36,6 +45,10 @@
       right: 0;
       overflow: scroll;
       z-index: 3;
+    }
+
+    .xterm-widget li {
+      padding: 5px;
     }
   </style>
 </head>
