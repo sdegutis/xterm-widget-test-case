@@ -92,6 +92,10 @@
 
     const widget = document.getElementsByClassName('xterm-widget')[0];
 
+    widget.addEventListener('scroll', (e) => {
+      console.log(e);
+    });
+
     const cellWidth = term._core._renderService.dimensions.actualCellWidth;
     const cellHeight = term._core._renderService.dimensions.actualCellHeight;
 
